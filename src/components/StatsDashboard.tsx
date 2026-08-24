@@ -22,7 +22,6 @@ interface StatsDashboardProps {
 export function StatsDashboard({ hero, skills, quests }: StatsDashboardProps) {
   const totalQuests = quests.length;
   const completedQuests = quests.filter(q => q.status === 'completed').length;
-  const activeQuests = quests.filter(q => q.status === 'active').length;
   const totalSkills = skills.length;
   
   // Calculate total XP across all skills

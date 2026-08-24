@@ -17,7 +17,7 @@ export function checkLevelUp(
 } {
     let remainingXP = xp;
     let newLevel = level;
-    let newXpToNext = xpToNext;
+    let newXpToNext = xpToNext;``
     let leveledUp = false;
 
     while (remainingXP >= newXpToNext) {

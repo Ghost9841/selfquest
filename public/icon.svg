@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Background -->
+  <rect width="128" height="128" rx="24" fill="#1a1a2e"/>
+  
+  <!-- Gradient border -->
+  <rect width="128" height="128" rx="24" fill="none" stroke="url(#grad)" stroke-width="3"/>
+  
+  <!-- Sword icon -->
+  <text x="64" y="84" font-size="60" text-anchor="middle" dominant-baseline="central">⚔️</text>
+  
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+  </defs>
+</svg>

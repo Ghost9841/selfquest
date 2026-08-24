@@ -139,7 +139,7 @@ export const useSkillStore = create<SkillStore>()(
                 return get().skills.find(s => s.id === id);
             },
 
-            addXPFromQuest: (skillId: string, amount: number, questId: string) => {
+            addXPFromQuest: (skillId: string, amount: number) => {
                 set((state) => {
                     const skill = state.skills.find(s => s.id === skillId);
                     if (!skill) return state;

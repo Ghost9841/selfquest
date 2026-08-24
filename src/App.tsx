@@ -63,7 +63,7 @@ function App() {
         
         {/* Main Content with Tabs */}
         <Tabs defaultValue="dashboard" className="mt-4">
-          <TabsList className="w-full bg-[#1a1a2e]">
+          <TabsList className="w-full bg-[#e7e7ea]">
             <TabsTrigger value="dashboard" className="flex-1 data-[state=active]:bg-purple-600">
               <LayoutDashboard className="mr-2 h-4 w-4" />
               Dashboard

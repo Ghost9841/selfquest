@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Self Quest",
+  "version": "1.0.0",
+  "description": "Level up your life — RPG style skill tracker",
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Self Quest"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

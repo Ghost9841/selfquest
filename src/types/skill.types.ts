@@ -21,5 +21,6 @@ export interface SkillStore {
     deleteSkill: (id: string) => void;
     addXP: (skillId: string, amount: number) => void;
     subtractXP: (skillId: string, amount: number) => void;
+    addXPFromQuest: (skillId: string, amount: number, questId: string) => void; // NEW
     getSkillById: (id: string) => Skill | undefined;
 }

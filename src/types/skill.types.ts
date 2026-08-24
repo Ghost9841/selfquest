@@ -1,3 +1,5 @@
+import type { LevelUpCallback } from "@/store/skill.store"
+
 export interface Skill {
     id: string
     name: string
@@ -19,8 +21,8 @@ export interface SkillStore {
     addSkill: (skill: Omit<Skill, 'id' | 'level' | 'xp' | 'xpToNext' | 'totalXP' | 'streak' | 'lastUpdated' | 'questsCompleted' | 'createdAt' | 'updatedAt'>) => void;
     updateSkill: (id: string, updates: Partial<Skill>) => void;
     deleteSkill: (id: string) => void;
-    addXP: (skillId: string, amount: number) => void;
+    addXP: (skillId: string, amount: number, onLevelUp?: LevelUpCallback) => void;
+    addXPFromQuest: (skillId: string, amount: number, questId: string, onLevelUp?: LevelUpCallback) => void;
     subtractXP: (skillId: string, amount: number) => void;
-    addXPFromQuest: (skillId: string, amount: number, questId: string) => void; // NEW
     getSkillById: (id: string) => Skill | undefined;
 }

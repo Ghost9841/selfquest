@@ -17,6 +17,9 @@ export const SKILL_COLORS = [
     '#8B5CF6', '#EC4899', '#06B6D4', '#F97316'
 ];
 
+export type LevelUpCallback = (skillName: string, newLevel: number, skillIcon: string, skillColor: string) => void;
+
+
 export const useSkillStore = create<SkillStore>()(
     persist(
         (set, get) => ({
@@ -57,28 +60,24 @@ export const useSkillStore = create<SkillStore>()(
                 }));
             },
 
-            addXP: (skillId, amount) => {
+            // Update the addXP function
+            addXP: (skillId, amount, onLevelUp) => {
                 set((state) => {
                     const skill = state.skills.find(s => s.id === skillId);
                     if (!skill) return state;
 
-                    // Update streak
                     const today = new Date().toISOString().split('T')[0];
                     const lastDate = skill.lastUpdated;
                     let streak = skill.streak;
 
                     if (lastDate === today) {
-                        // Already updated today
                         streak = skill.streak;
                     } else if (lastDate === new Date(Date.now() - 86400000).toISOString().split('T')[0]) {
-                        // Yesterday — streak continues
                         streak = skill.streak + 1;
                     } else {
-                        // Streak broken
                         streak = 1;
                     }
 
-                    // Calculate new XP and level
                     let newXP = skill.xp + amount;
                     let newLevel = skill.level;
                     let xpToNext = skill.xpToNext;
@@ -102,9 +101,9 @@ export const useSkillStore = create<SkillStore>()(
                         updatedAt: new Date().toISOString(),
                     };
 
-                    // If leveled up, show notification (we'll handle this in UI)
-                    if (leveledUp) {
-                        console.log(`🎉 ${skill.name} leveled up to ${newLevel}!`);
+                    // Trigger level up callback
+                    if (leveledUp && onLevelUp) {
+                        onLevelUp(skill.name, newLevel, skill.icon, skill.color);
                     }
 
                     return {

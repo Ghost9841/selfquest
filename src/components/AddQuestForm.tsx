@@ -112,7 +112,9 @@ export function AddQuestForm({ skills, onAddQuest }: AddQuestFormProps) {
           {/* Skill Assignment */}
           <div>
             <Label className="text-gray-400">Assign to Skill</Label>
-            <Select value={skillId} onValueChange={() => setSkillId} required>
+            <Select value={skillId}  onValueChange={(value) => {
+                if (value !== null) setSkillId(value);
+              }} required>
               <SelectTrigger className="border-purple-600 bg-[#0f0e17] text-white">
                 <SelectValue placeholder="Select a skill..." />
               </SelectTrigger>

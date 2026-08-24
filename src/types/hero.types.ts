@@ -7,3 +7,10 @@ export interface Hero {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface HeroStore {
+  hero : Hero | null;
+  setHeroName: (name: string) => void;
+  resetHero: () => void;
+}
+

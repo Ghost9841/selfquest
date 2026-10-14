@@ -11,9 +11,10 @@ interface QuestListProps {
   onComplete: (id: string) => void;
   onDelete: (id: string) => void;
   onStartFocus?: (quest: Quest) => void;
+  highlightQuestId?: string;
 }
 
-export function QuestList({ quests, skills, onComplete, onDelete, onStartFocus }: QuestListProps) {
+export function QuestList({ quests, skills, onComplete, onDelete, onStartFocus, highlightQuestId }: QuestListProps) {
   const [filter, setFilter] = useState<QuestStatus | 'all'>('active');
 
   const filteredQuests = quests.filter((q) => {
@@ -86,6 +87,7 @@ export function QuestList({ quests, skills, onComplete, onDelete, onStartFocus }
             onComplete={onComplete}
             onDelete={onDelete}
             onStartFocus={onStartFocus}
+            isHighlighted={quest.id === highlightQuestId}
           />
         ))}
 

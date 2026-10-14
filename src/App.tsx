@@ -26,11 +26,40 @@ function App() {
   const { quests, addQuest, completeQuest, deleteQuest, checkDailyReset } = useQuestStore();
   const { startTimer } = useTimerStore();
 
-  const [activeTab, setActiveTab] = useState('dashboard');
+  // Read URL search params for deep navigation (from notifications or auto-popout)
+  const [activeTab, setActiveTab] = useState<string>(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get('tab');
+    if (tab && ['dashboard', 'quests', 'timer', 'skills'].includes(tab)) {
+      return tab;
+    }
+    return 'dashboard';
+  });
+
+  const [highlightQuestId, setHighlightQuestId] = useState<string | null>(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('questId') || null;
+  });
 
   // Daily quest reset check on load
   useEffect(() => {
     checkDailyReset();
+
+    // Check if new URL params arrive while window is open
+    const checkParams = () => {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get('tab');
+      const qId = params.get('questId');
+      if (tab && ['dashboard', 'quests', 'timer', 'skills'].includes(tab)) {
+        setActiveTab(tab);
+      }
+      if (qId) {
+        setHighlightQuestId(qId);
+      }
+    };
+
+    window.addEventListener('popstate', checkParams);
+    return () => window.removeEventListener('popstate', checkParams);
   }, [checkDailyReset]);
 
   // Level up notification state
@@ -142,6 +171,7 @@ function App() {
               onComplete={handleCompleteQuest}
               onDelete={deleteQuest}
               onStartFocus={handleStartFocus}
+              highlightQuestId={highlightQuestId || undefined}
             />
             <div>
               <AddQuestForm skills={skills} onAddQuest={addQuest} />

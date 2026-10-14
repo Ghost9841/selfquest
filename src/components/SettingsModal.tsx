@@ -20,11 +20,13 @@ export function SettingsModal() {
   const {
     windowsNotifications,
     inBrowserBanners,
+    autoOpenWindow,
     soundEnabled,
     soundTheme,
     autoResetDaily,
     setWindowsNotifications,
     setInBrowserBanners,
+    setAutoOpenWindow,
     setSoundEnabled,
     setSoundTheme,
     setAutoResetDaily,
@@ -60,8 +62,26 @@ export function SettingsModal() {
           <div className="space-y-3">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-purple-400 flex items-center gap-1.5">
               <Bell className="h-3.5 w-3.5" />
-              Notification Delivery Channels
+              Notification & Auto-Open Channels
             </h3>
+
+            {/* Auto-Open Window Toggle */}
+            <div className="rounded-xl border border-purple-500/40 bg-purple-950/20 p-3.5 flex items-start justify-between gap-3 backdrop-blur-md">
+              <div className="space-y-0.5">
+                <Label className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <span className="text-base">🚀</span>
+                  Auto-Pop Open Self Quest on Events
+                </Label>
+                <p className="text-xs text-purple-200/80 leading-relaxed">
+                  Automatically pops open the Self Quest companion window and navigates you straight to the task or XP claim screen.
+                </p>
+              </div>
+              <Switch
+                checked={autoOpenWindow}
+                onCheckedChange={setAutoOpenWindow}
+                className="data-[state=checked]:bg-purple-600 mt-0.5 shrink-0"
+              />
+            </div>
 
             {/* In-Browser Slide-In Banners Toggle */}
             <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3.5 flex items-start justify-between gap-3 backdrop-blur-md">
@@ -71,13 +91,13 @@ export function SettingsModal() {
                   In-Browser Slide-In Banners (Inside Active Tabs)
                 </Label>
                 <p className="text-xs text-gray-400">
-                  Displays an RPG alert card directly inside whatever webpage you are viewing (like YouTube, Reddit, Google).
+                  Displays an RPG alert card directly inside whatever webpage you are viewing (with a 1-click button to open the quest).
                 </p>
               </div>
               <Switch
                 checked={inBrowserBanners}
                 onCheckedChange={setInBrowserBanners}
-                className="data-[state=checked]:bg-cyan-500 mt-0.5"
+                className="data-[state=checked]:bg-cyan-500 mt-0.5 shrink-0"
               />
             </div>
 
@@ -89,13 +109,13 @@ export function SettingsModal() {
                   Windows System Notifications (OS Toast)
                 </Label>
                 <p className="text-xs text-gray-400">
-                  Sends desktop notification banners to the Windows Action Center (helpful if Brave is minimized).
+                  Sends desktop notification banners to the Windows Action Center (clicking it opens Self Quest directly).
                 </p>
               </div>
               <Switch
                 checked={windowsNotifications}
                 onCheckedChange={setWindowsNotifications}
-                className="data-[state=checked]:bg-purple-600 mt-0.5"
+                className="data-[state=checked]:bg-purple-600 mt-0.5 shrink-0"
               />
             </div>
           </div>

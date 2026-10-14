@@ -21,14 +21,9 @@ export default defineConfig({
         // Copy files
         try {
           copyFileSync('public/manifest.json', 'dist/manifest.json');
-          
-          // Only copy icons if they exist
-          const icons = ['icon16.png', 'icon48.png', 'icon128.png'];
-          icons.forEach(icon => {
-            try {
-              copyFileSync(`public/${icon}`, `dist/${icon}`);
-            } catch (e) {
-              console.log(`⚠️ ${icon} not found, skipping...`);
+          ['background.js', 'content.js', 'offscreen.html', 'offscreen.js', 'icon.png', 'icon16.png', 'icon48.png', 'icon128.png'].forEach(file => {
+            if (existsSync(`public/${file}`)) {
+              copyFileSync(`public/${file}`, `dist/${file}`);
             }
           });
           

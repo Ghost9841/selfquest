@@ -11,6 +11,9 @@ export interface Quest {
   status: QuestStatus;
   repeatable: boolean;
   streakBonus: number;
+  allocatedMinutes?: number;
+  reminderTime?: string;
+  lastCompletedDate?: string;
   createdAt: string;
   completedAt?: string;
   updatedAt: string;
@@ -23,6 +26,7 @@ export interface QuestStore {
   updateQuest: (id: string, updates: Partial<Quest>) => void;
   deleteQuest: (id: string) => void;
   completeQuest: (id: string) => void;
+  checkDailyReset: () => void;
   getQuestById: (id: string) => Quest | undefined;
   getQuestsBySkill: (skillId: string) => Quest[];
   getQuestsByStatus: (status: QuestStatus) => Quest[];

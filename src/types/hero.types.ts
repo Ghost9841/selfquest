@@ -9,8 +9,8 @@ export interface Hero {
 }
 
 export interface HeroStore {
-  hero : Hero | null;
+  hero: Hero | null;
   setHeroName: (name: string) => void;
+  addHeroXP: (amount: number, onHeroLevelUp?: (newLevel: number) => void) => void;
   resetHero: () => void;
 }
-

@@ -1,9 +1,7 @@
 // src/components/QuestList.tsx
 
 import { useState } from 'react';
-
 import { QuestCard } from './QuestCard';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { Quest, QuestStatus } from '@/types/quest.types';
 import type { Skill } from '@/types/skill.types';
 
@@ -12,51 +10,74 @@ interface QuestListProps {
   skills: Skill[];
   onComplete: (id: string) => void;
   onDelete: (id: string) => void;
+  onStartFocus?: (quest: Quest) => void;
 }
 
-export function QuestList({ quests, skills, onComplete, onDelete }: QuestListProps) {
+export function QuestList({ quests, skills, onComplete, onDelete, onStartFocus }: QuestListProps) {
   const [filter, setFilter] = useState<QuestStatus | 'all'>('active');
 
-  const filteredQuests = quests.filter(q => {
+  const filteredQuests = quests.filter((q) => {
     if (filter === 'all') return true;
     return q.status === filter;
   });
 
   const getSkillForQuest = (skillId: string) => {
-    return skills.find(s => s.id === skillId);
+    return skills.find((s) => s.id === skillId);
   };
+
+  const activeCount = quests.filter((q) => q.status === 'active').length;
+  const completedCount = quests.filter((q) => q.status === 'completed').length;
 
   if (quests.length === 0) {
     return (
-      <div className="rounded-lg border border-dashed border-purple-600/30 bg-[#1a1a2e] p-8 text-center">
-        <p className="text-gray-400">No quests yet. Add your first quest!</p>
+      <div className="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] backdrop-blur-xl p-8 text-center">
+        <p className="text-sm text-gray-400">No quests recorded in your quest log yet.</p>
+        <p className="text-xs text-purple-400/80 mt-1">Accept your first quest below to begin earning XP!</p>
       </div>
     );
   }
 
   return (
-    <div>
-      {/* Filter Tabs */}
-      <Tabs 
-        value={filter} 
-        onValueChange={(v) => setFilter(v as QuestStatus | 'all')}
-        className="mb-4"
-      >
-        <TabsList className="bg-[#1a1a2e]">
-          <TabsTrigger value="all" className="data-[state=active]:bg-purple-600">
-            All ({quests.length})
-          </TabsTrigger>
-          <TabsTrigger value="active" className="data-[state=active]:bg-purple-600">
-            Active ({quests.filter(q => q.status === 'active').length})
-          </TabsTrigger>
-          <TabsTrigger value="completed" className="data-[state=active]:bg-purple-600">
-            Completed ({quests.filter(q => q.status === 'completed').length})
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
+    <div className="space-y-3">
+      {/* Glassmorphic Filter Bar */}
+      <div className="flex items-center gap-1 rounded-xl border border-white/10 bg-white/[0.04] p-1 backdrop-blur-md">
+        <button
+          type="button"
+          onClick={() => setFilter('active')}
+          className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold transition-all ${
+            filter === 'active'
+              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30'
+              : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          Active ({activeCount})
+        </button>
+        <button
+          type="button"
+          onClick={() => setFilter('completed')}
+          className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold transition-all ${
+            filter === 'completed'
+              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30'
+              : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          Completed ({completedCount})
+        </button>
+        <button
+          type="button"
+          onClick={() => setFilter('all')}
+          className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold transition-all ${
+            filter === 'all'
+              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30'
+              : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          All ({quests.length})
+        </button>
+      </div>
 
       {/* Quest Cards */}
-      <div className="space-y-2">
+      <div className="space-y-2.5">
         {filteredQuests.map((quest) => (
           <QuestCard
             key={quest.id}
@@ -64,12 +85,16 @@ export function QuestList({ quests, skills, onComplete, onDelete }: QuestListPro
             skill={getSkillForQuest(quest.skillId)}
             onComplete={onComplete}
             onDelete={onDelete}
+            onStartFocus={onStartFocus}
           />
         ))}
+
         {filteredQuests.length === 0 && (
-          <p className="text-center text-gray-500 text-sm py-4">
-            No {filter} quests
-          </p>
+          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-6 text-center">
+            <p className="text-xs text-gray-500">
+              No {filter} quests found.
+            </p>
+          </div>
         )}
       </div>
     </div>

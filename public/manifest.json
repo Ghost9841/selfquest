@@ -1,15 +1,34 @@
 {
   "manifest_version": 3,
   "name": "Self Quest",
-  "version": "1.0.0",
-  "description": "Level up your life — RPG style skill tracker",
+  "version": "1.2.0",
+  "description": "Level up your life — RPG style skill tracker, task reminders & Pomodoro Focus",
   "action": {
     "default_popup": "index.html",
-    "default_title": "Self Quest"
+    "default_title": "Self Quest",
+    "default_icon": "icon48.png"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
   },
   "permissions": [
-    "storage"
+    "storage",
+    "alarms",
+    "notifications",
+    "offscreen"
   ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   }
